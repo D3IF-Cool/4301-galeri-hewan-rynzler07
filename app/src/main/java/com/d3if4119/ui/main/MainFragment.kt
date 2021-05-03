@@ -1,27 +1,32 @@
-package com.d3if4119.galerihewan
+package com.d3if4119.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.d3if4119.galerihewan.databinding.ActivityMainBinding
+import com.d3if4119.galerihewan.Hewan
+import com.d3if4119.galerihewan.R
+import com.d3if4119.galerihewan.databinding.FragmentMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        with(binding.recyclerView){
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+class MainFragment : Fragment() {
+    private lateinit var binding: FragmentMainBinding
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        with(binding.recyclerView) {
+            addItemDecoration(DividerItemDecoration(context,
+                RecyclerView.VERTICAL))
             adapter = MainAdapter(getData())
             setHasFixedSize(true)
         }
+        return binding.root
     }
 
+    // Biasanya kita mengambil data dari database, atau server.
+    // Tapi karena materi belum sampai, kita buat dummy saja.
     private fun getData(): List<Hewan> {
         return listOf(
             Hewan("Angsa", "Cygnus olor", R.drawable.angsa),
@@ -34,6 +39,6 @@ class MainActivity : AppCompatActivity() {
             Hewan("Kerbau", "Bubalus bubalis", R.drawable.kerbau),
             Hewan("Kuda", "Equus caballus", R.drawable.kuda),
             Hewan("Sapi", "Bos taurus", R.drawable.sapi),
-            )
+        )
     }
 }
