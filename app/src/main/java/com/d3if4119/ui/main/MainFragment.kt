@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d3if4119.galerihewan.Hewan
 import com.d3if4119.galerihewan.R
 import com.d3if4119.galerihewan.databinding.FragmentMainBinding
+import com.d3if4119.network.HewanApi
 
 class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
@@ -38,5 +39,24 @@ class MainFragment : Fragment() {
         viewModel.getData().observe(viewLifecycleOwner, {
             myAdapter.updateData(it)
         })
+
+        viewModel.getStatus().observe(viewLifecycleOwner, {
+            updateProgress(it)
+        })
+    }
+
+    private fun updateProgress(status: HewanApi.ApiStatus) {
+        when (status) {
+            HewanApi.ApiStatus.LOADING -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            HewanApi.ApiStatus.SUCCESS -> {
+                binding.progressBar.visibility = View.GONE
+            }
+            HewanApi.ApiStatus.FAILED -> {
+                binding.progressBar.visibility = View.GONE
+                binding.networkError.visibility = View.VISIBLE
+            }
+        }
     }
 }
